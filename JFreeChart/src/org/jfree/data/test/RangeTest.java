@@ -3,7 +3,10 @@ package org.jfree.data.test;
 import static org.junit.Assert.*; import org.jfree.data.Range; import org.junit.*;
 
 public class RangeTest {
-	// Testing method Range.combine()
+	/*
+	 * Test combine()
+	 */
+	
     /**
      * Test Case: Both input ranges are null.
      * Test Strategy: ECP - Null case
@@ -167,6 +170,10 @@ public class RangeTest {
         assertEquals("Adjacent single-point ranges (3,3) and (4,4) should merge into (3,4).",
             new Range(3, 4), Range.combine(range1, range2));
     }
+    
+    /*
+     * Test constrain()
+     */
     
     /**
      * Test Case: A normal value within the valid range.

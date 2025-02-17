@@ -14,7 +14,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	private final Mockery context = new JUnit4Mockery();
 	
 	/**
-     * Test Case 1: Standard case with positive values.
+     * Test Case: Standard case with positive values.
      * Test Strategy: Normal case (ECP)
      * Expected: Correct cumulative percentages calculated.
      */
@@ -43,7 +43,7 @@ public class DataUtilitiesTest extends DataUtilities {
     }
 
     /**
-     * Test Case 2: Single-value dataset.
+     * Test Case: Single-value dataset.
      * Test Strategy: Minimum input size (BVA)
      * Expected: The only value should have a cumulative percentage of 1.0.
      */
@@ -65,7 +65,7 @@ public class DataUtilitiesTest extends DataUtilities {
     }
 
     /**
-     * Test Case 3: Values including zero.
+     * Test Case: Values including zero.
      * Test Strategy: Handling zero (ECP)
      * Expected: Zero should not affect cumulative percentage calculations.
      */
@@ -94,7 +94,7 @@ public class DataUtilitiesTest extends DataUtilities {
     }
 
     /**
-     * Test Case 4: Negative values.
+     * Test Case: Negative values.
      * Test Strategy: Handling negative numbers (ECP)
      * Expected: If allowed, cumulative percentages should work normally.
      */
@@ -122,10 +122,8 @@ public class DataUtilitiesTest extends DataUtilities {
         assertEquals(1.0, result.getValue(2).doubleValue(), 0.0001);
     }
 
-    // ***************** INVALID CASES *****************
-
     /**
-     * Test Case 5: Null input.
+     * Test Case: Null input.
      * Test Strategy: Invalid input (ECP)
      * Expected: The method should throw an InvalidParameterException.
      */
@@ -140,7 +138,7 @@ public class DataUtilitiesTest extends DataUtilities {
     }
 
     /**
-     * Test Case 6: Empty dataset.
+     * Test Case: Empty dataset.
      * Test Strategy: Edge case (ECP)
      * Expected: The method should return an empty KeyedValues instance.
      */
