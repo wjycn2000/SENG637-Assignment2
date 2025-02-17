@@ -200,6 +200,25 @@ public class RangeTest {
         }
         assertEquals("Zero boundary values should merge into (-5,5).", new Range(-5, 5), combinedRange);
     }
+    
+    /**
+     * Test Case: Identical single-point ranges.
+     * Test Strategy: ECP - Single-point range
+     * Expected Behavior: The method should return the same single-point range.
+     */
+    @Test
+    public void testCombineSinglePointRangesIdenticalReturnsSamePoint() {
+        Range range1 = new Range(3, 3);
+        Range range2 = new Range(3, 3);
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Identical single-point ranges (3,3) should return (3,3).",
+            new Range(3, 3), combinedRange);
+    }
 
     /**
      * Test Case: Merging two adjacent single-point ranges.
