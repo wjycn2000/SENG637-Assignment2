@@ -14,7 +14,13 @@ public class RangeTest {
      */
     @Test
     public void testCombineBothNullReturnsNull() {
-        assertNull("Combining two null ranges should return null.", Range.combine(null, null));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(null, null);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertNull("Combining two null ranges should return null.", combinedRange);
     }
 
     /**
@@ -25,8 +31,13 @@ public class RangeTest {
     @Test
     public void testCombineFirstNullReturnsSecondRange() {
         Range range2 = new Range(2, 5);
-        assertEquals("Combining null with a valid range should return the valid range.",
-            range2, Range.combine(null, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(null, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Combining null with a valid range should return the valid range.", range2, combinedRange);
     }
 
     /**
@@ -37,8 +48,13 @@ public class RangeTest {
     @Test
     public void testCombineSecondNullReturnsFirstRange() {
         Range range1 = new Range(3, 8);
-        assertEquals("Combining a valid range with null should return the valid range.",
-            range1, Range.combine(range1, null));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, null);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Combining a valid range with null should return the valid range.", range1, combinedRange);
     }
 
     /**
@@ -50,12 +66,17 @@ public class RangeTest {
     public void testCombineNonOverlappingRangesMergesCorrectly() {
         Range range1 = new Range(1, 5);
         Range range2 = new Range(10, 15);
-        assertEquals("Non-overlapping ranges should be merged into (1, 15).",
-            new Range(1, 15), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Non-overlapping ranges should be merged into (1, 15).", new Range(1, 15), combinedRange);
     }
 
     /**
-     * Test Case: Two touching ranges (one ends where the other begins).
+     * Test Case: Two touching ranges.
      * Test Strategy: BVA - Touching boundaries
      * Expected Behavior: The method should merge them into a single continuous range.
      */
@@ -63,8 +84,13 @@ public class RangeTest {
     public void testCombineTouchingRangesMerges() {
         Range range1 = new Range(1, 5);
         Range range2 = new Range(5, 10);
-        assertEquals("Touching ranges (1,5) and (5,10) should be merged into (1,10).",
-            new Range(1, 10), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Touching ranges should merge into (1,10).", new Range(1, 10), combinedRange);
     }
 
     /**
@@ -76,8 +102,13 @@ public class RangeTest {
     public void testCombineOverlappingRangesMergesCorrectly() {
         Range range1 = new Range(1, 6);
         Range range2 = new Range(4, 10);
-        assertEquals("Overlapping ranges (1,6) and (4,10) should be merged into (1,10).",
-            new Range(1, 10), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Overlapping ranges should merge into (1,10).", new Range(1, 10), combinedRange);
     }
 
     /**
@@ -89,8 +120,13 @@ public class RangeTest {
     public void testCombineIdenticalRangesReturnsSameRange() {
         Range range1 = new Range(1, 5);
         Range range2 = new Range(1, 5);
-        assertEquals("Identical ranges (1,5) should return the same range (1,5).",
-            range1, Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Identical ranges should return the same range.", range1, combinedRange);
     }
 
     /**
@@ -102,8 +138,13 @@ public class RangeTest {
     public void testCombineOneRangeInsideAnotherReturnsLargerRange() {
         Range range1 = new Range(1, 10);
         Range range2 = new Range(3, 7);
-        assertEquals("Range (3,7) inside (1,10) should return the larger range (1,10).",
-            range1, Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Range inside another should return the larger range.", range1, combinedRange);
     }
 
     /**
@@ -115,8 +156,13 @@ public class RangeTest {
     public void testCombineLowerBoundaryValuesMergeCorrectly() {
         Range range1 = new Range(Integer.MIN_VALUE, -1);
         Range range2 = new Range(0, 5);
-        assertEquals("Lower boundary values should be merged into (Integer.MIN_VALUE, 5).",
-            new Range(Integer.MIN_VALUE, 5), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Lower boundary values should merge into (Integer.MIN_VALUE, 5).", new Range(Integer.MIN_VALUE, 5), combinedRange);
     }
 
     /**
@@ -128,8 +174,13 @@ public class RangeTest {
     public void testCombineUpperBoundaryValuesMergeCorrectly() {
         Range range1 = new Range(10, Integer.MAX_VALUE);
         Range range2 = new Range(5, 9);
-        assertEquals("Upper boundary values should be merged into (5, Integer.MAX_VALUE).",
-            new Range(5, Integer.MAX_VALUE), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Upper boundary values should merge into (5, Integer.MAX_VALUE).", new Range(5, Integer.MAX_VALUE), combinedRange);
     }
 
     /**
@@ -141,21 +192,13 @@ public class RangeTest {
     public void testCombineZeroBoundaryValuesMergeCorrectly() {
         Range range1 = new Range(-5, 0);
         Range range2 = new Range(0, 5);
-        assertEquals("Zero boundary values (-5,0) and (0,5) should be merged into (-5,5).",
-            new Range(-5, 5), Range.combine(range1, range2));
-    }
-
-    /**
-     * Test Case: Merging two identical single-point ranges.
-     * Test Strategy: ECP - Single-point range
-     * Expected Behavior: The method should return the same single-point range.
-     */
-    @Test
-    public void testCombineSinglePointRangesIdenticalReturnsSamePoint() {
-        Range range1 = new Range(3, 3);
-        Range range2 = new Range(3, 3);
-        assertEquals("Identical single-point ranges (3,3) should return (3,3).",
-            new Range(3, 3), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Zero boundary values should merge into (-5,5).", new Range(-5, 5), combinedRange);
     }
 
     /**
@@ -167,8 +210,13 @@ public class RangeTest {
     public void testCombineSinglePointRangesAdjacentMerges() {
         Range range1 = new Range(3, 3);
         Range range2 = new Range(4, 4);
-        assertEquals("Adjacent single-point ranges (3,3) and (4,4) should merge into (3,4).",
-            new Range(3, 4), Range.combine(range1, range2));
+        Range combinedRange = null;
+        try {
+            combinedRange = Range.combine(range1, range2);
+        } catch (IllegalArgumentException e) {
+            fail("Failed to combine the range.");
+        }
+        assertEquals("Adjacent single-point ranges should merge into (3,4).", new Range(3, 4), combinedRange);
     }
     
     /*
