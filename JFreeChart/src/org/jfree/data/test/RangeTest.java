@@ -373,4 +373,288 @@ public class RangeTest {
         assertEquals("A value just outside the upper boundary should return the upper bound.",
             8, range.constrain(9), 0.000000001d);
     }
+	
+    // Testing method Range.contains()
+    // Test case: Value exactly at the lower bound
+    @Test
+    public void testContains_AtLowerBound() {
+        Range range = new Range(5.0, 10.0);
+        assertTrue("Range(5,10) should contain its lower bound 5.0", range.contains(5.0));
+    }
+
+    // Test case: Value exactly at the upper bound
+    @Test
+    public void testContains_AtUpperBound() {
+        Range range = new Range(5.0, 10.0);
+        assertTrue("Range(5,10) should contain its upper bound 10.0", range.contains(10.0));
+    }
+
+    // Test case: Value within the range
+    @Test
+    public void testContains_ValueInsideRange() {
+        Range range = new Range(5.0, 10.0);
+        assertTrue("Range(5,10) should contain 7.5", range.contains(7.5));
+    }
+
+    // Test case: Value outside the range (lower than lower bound)
+    @Test
+    public void testContains_ValueBelowRange() {
+        Range range = new Range(5.0, 10.0);
+        assertFalse("Range(5,10) should not contain 3.0", range.contains(3.0));
+    }
+
+    // Test case: Value outside the range (greater than upper bound)
+    @Test
+    public void testContains_ValueAboveRange() {
+        Range range = new Range(5.0, 10.0);
+        assertFalse("Range(5,10) should not contain 12.0", range.contains(12.0));
+    }
+
+    // Test case: Value in a negative range
+    @Test
+    public void testContains_ValueInNegativeRange() {
+        Range range = new Range(-10.0, -5.0);
+        assertTrue("Range(-10,-5) should contain -7.0", range.contains(-7.0));
+    }
+
+    // Test case: Value outside a negative range
+    @Test
+    public void testContains_ValueOutsideNegativeRange() {
+        Range range = new Range(-10.0, -5.0);
+        assertFalse("Range(-10,-5) should not contain -11.0", range.contains(-11.0));
+    }
+
+    // Test case: Value at zero in a range that includes zero
+    @Test
+    public void testContains_ValueAtZero() {
+        Range range = new Range(-5.0, 5.0);
+        assertTrue("Range(-5,5) should contain 0.0", range.contains(0.0));
+    }
+
+    // Test case: Value in a very large range
+    @Test
+    public void testContains_ValueInLargeRange() {
+        Range range = new Range(-1e9, 1e9);
+        assertTrue("Range(-1e9,1e9) should contain 0", range.contains(0.0));
+    }
+
+    // Test case: Value outside a very large range
+    @Test
+    public void testContains_ValueOutsideLargeRange() {
+        Range range = new Range(-1e9, 1e9);
+        assertFalse("Range(-1e9,1e9) should not contain 1e12", range.contains(1e12));
+    }
+
+    // Test case: Single-point range containing its own value
+    @Test
+    public void testContains_SinglePointRangeContainsItsValue() {
+        Range range = new Range(3.0, 3.0);
+        assertTrue("Single-point range (3,3) should contain 3.0", range.contains(3.0));
+    }
+
+    // Test case: Single-point range should not contain other values
+    @Test
+    public void testContains_SinglePointRangeDoesNotContainOtherValues() {
+        Range range = new Range(3.0, 3.0);
+        assertFalse("Single-point range (3,3) should not contain 4.0", range.contains(4.0));
+    }
+
+    // Test case: Extreme values - Checking Double.MIN_VALUE
+    @Test
+    public void testContains_WithDoubleMinValue() {
+        Range range = new Range(Double.MIN_VALUE, 10.0);
+        assertTrue("Range(Double.MIN_VALUE, 10) should contain Double.MIN_VALUE", range.contains(Double.MIN_VALUE));
+    }
+
+    // Test case: Extreme values - Checking Double.MAX_VALUE
+    @Test
+    public void testContains_WithDoubleMaxValue() {
+        Range range = new Range(-10.0, Double.MAX_VALUE);
+        assertTrue("Range(-10, Double.MAX_VALUE) should contain Double.MAX_VALUE", range.contains(Double.MAX_VALUE));
+    }
+
+    // Test case: Handling NaN values
+    @Test
+    public void testContains_WithNaN() {
+        Range range = new Range(5.0, 10.0);
+        assertFalse("Range(5,10) should not contain NaN", range.contains(Double.NaN));
+    }
+    
+    //Testing method Range.getCentralValue()
+    // Test case: Central value of a standard positive range
+    @Test
+    public void testGetCentralValue_PositiveRange() {
+        Range range = new Range(5.0, 10.0);
+        assertEquals("Central value of Range(5,10) should be 7.5", 
+                     7.5, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of a negative range
+    @Test
+    public void testGetCentralValue_NegativeRange() {
+        Range range = new Range(-10.0, -5.0);
+        assertEquals("Central value of Range(-10,-5) should be -7.5", 
+                     -7.5, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value when range includes zero
+    @Test
+    public void testGetCentralValue_IncludingZero() {
+        Range range = new Range(-5.0, 5.0);
+        assertEquals("Central value of Range(-5,5) should be 0.0", 
+                     0.0, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value when lower bound is zero
+    @Test
+    public void testGetCentralValue_ZeroLowerBound() {
+        Range range = new Range(0.0, 10.0);
+        assertEquals("Central value of Range(0,10) should be 5.0", 
+                     5.0, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of a single-point range
+    @Test
+    public void testGetCentralValue_SinglePointRange() {
+        Range range = new Range(3.0, 3.0);
+        assertEquals("Central value of Range(3,3) should be 3.0", 
+                     3.0, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of a large range
+    @Test
+    public void testGetCentralValue_LargeRange() {
+        Range range = new Range(-1e9, 1e9);
+        assertEquals("Central value of Range(-1e9,1e9) should be 0.0", 
+                     0.0, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of an extreme range near Double.MIN_VALUE
+    @Test
+    public void testGetCentralValue_WithDoubleMinValue() {
+        Range range = new Range(Double.MIN_VALUE, 10.0);
+        assertEquals("Central value of Range(Double.MIN_VALUE, 10) should be (Double.MIN_VALUE + 10) / 2", 
+                     (Double.MIN_VALUE + 10.0) / 2, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of an extreme range near Double.MAX_VALUE
+    @Test
+    public void testGetCentralValue_WithDoubleMaxValue() {
+        Range range = new Range(-10.0, Double.MAX_VALUE);
+        assertEquals("Central value of Range(-10, Double.MAX_VALUE) should be (-10 + Double.MAX_VALUE) / 2", 
+                     (-10.0 + Double.MAX_VALUE) / 2, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of a large negative range
+    @Test
+    public void testGetCentralValue_LargeNegativeRange() {
+        Range range = new Range(-1e12, -1e6);
+        assertEquals("Central value of Range(-1e12,-1e6) should be (-1e12 + -1e6) / 2", 
+                     (-1e12 + -1e6) / 2, range.getCentralValue(), 0.000000001d);
+    }
+
+    // Test case: Central value of a small decimal range
+    @Test
+    public void testGetCentralValue_SmallDecimalRange() {
+        Range range = new Range(0.0001, 0.0005);
+        assertEquals("Central value of Range(0.0001,0.0005) should be 0.0003", 
+                     0.0003, range.getCentralValue(), 0.000000001d);
+    }
+    
+    // Testing method Range.getLength()
+    // Test case: Length of a standard positive range
+    @Test
+    public void testGetLength_PositiveRange() {
+        Range range = new Range(5.0, 10.0);
+        assertEquals("Length of Range(5,10) should be 5.0", 
+                     5.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a negative range
+    @Test
+    public void testGetLength_NegativeRange() {
+        Range range = new Range(-10.0, -5.0);
+        assertEquals("Length of Range(-10,-5) should be 5.0", 
+                     5.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a range including zero
+    @Test
+    public void testGetLength_IncludingZero() {
+        Range range = new Range(-5.0, 5.0);
+        assertEquals("Length of Range(-5,5) should be 10.0", 
+                     10.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a zero-width range (both bounds are the same)
+    @Test
+    public void testGetLength_ZeroWidthRange() {
+        Range range = new Range(3.0, 3.0);
+        assertEquals("Length of Range(3,3) should be 0.0", 
+                     0.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a very large range
+    @Test
+    public void testGetLength_LargeRange() {
+        Range range = new Range(-1e9, 1e9);
+        assertEquals("Length of Range(-1e9,1e9) should be 2e9", 
+                     2e9, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of an extreme range near Double.MIN_VALUE
+    @Test
+    public void testGetLength_WithDoubleMinValue() {
+        Range range = new Range(Double.MIN_VALUE, 10.0);
+        assertEquals("Length of Range(Double.MIN_VALUE, 10) should be 10 - Double.MIN_VALUE", 
+                     10.0 - Double.MIN_VALUE, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of an extreme range near Double.MAX_VALUE
+    @Test
+    public void testGetLength_WithDoubleMaxValue() {
+        Range range = new Range(-10.0, Double.MAX_VALUE);
+        assertEquals("Length of Range(-10, Double.MAX_VALUE) should be Double.MAX_VALUE + 10", 
+                     Double.MAX_VALUE + 10.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a large negative range
+    @Test
+    public void testGetLength_LargeNegativeRange() {
+        Range range = new Range(-1e12, -1e6);
+        assertEquals("Length of Range(-1e12,-1e6) should be (-1e6 + 1e12)", 
+                     (-1e6 + 1e12), range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a small decimal range
+    @Test
+    public void testGetLength_SmallDecimalRange() {
+        Range range = new Range(0.0001, 0.0005);
+        assertEquals("Length of Range(0.0001,0.0005) should be 0.0004", 
+                     0.0004, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a range where lower bound is zero
+    @Test
+    public void testGetLength_LowerBoundZero() {
+        Range range = new Range(0.0, 10.0);
+        assertEquals("Length of Range(0,10) should be 10.0", 
+                     10.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a range where upper bound is zero
+    @Test
+    public void testGetLength_UpperBoundZero() {
+        Range range = new Range(-10.0, 0.0);
+        assertEquals("Length of Range(-10,0) should be 10.0", 
+                     10.0, range.getLength(), 0.000000001d);
+    }
+
+    // Test case: Length of a single-point range at zero
+    @Test
+    public void testGetLength_ZeroPointRange() {
+        Range range = new Range(0.0, 0.0);
+        assertEquals("Length of Range(0,0) should be 0.0", 
+                     0.0, range.getLength(), 0.000000001d);
+    }
 }
