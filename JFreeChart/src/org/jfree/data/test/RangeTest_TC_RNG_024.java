@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 import org.jfree.data.Range;
 import org.junit.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class RangeTest_TC_RNG_024 {
@@ -16,17 +18,17 @@ public class RangeTest_TC_RNG_024 {
         long startTime = System.nanoTime();
 
         Set<Integer> hashCodes = new HashSet<>();
+        Map<Integer, Integer> collisionCount = new HashMap<>();
         boolean hasCollision = false;
 
-        // Generate 100,000 unique Range objects with incrementing values
         for (int i = 0; i < LARGE_DATASET_SIZE; i++) {
             Range range = new Range(i, i + 10.0);
             int hash = range.hashCode();
 
-            // Check for hash collisions
+            // Track collisions
             if (!hashCodes.add(hash)) {
                 hasCollision = true;
-                System.out.println("Collision detected for Range(" + i + ", " + (i + 10.0) + ") with hash: " + hash);
+                collisionCount.put(hash, collisionCount.getOrDefault(hash, 0) + 1);
             }
         }
 
@@ -36,7 +38,13 @@ public class RangeTest_TC_RNG_024 {
         // Print execution time for performance evaluation
         System.out.println("Execution time for generating 100,000 hash codes: " + duration + " ms");
 
-        // Verify efficiency and uniqueness
+        // Print collision details
+        if (hasCollision) {
+            System.out.println("Total Collisions: " + collisionCount.size());
+            System.out.println("Hash codes with multiple occurrences: " + collisionCount);
+        }
+
+        // Assertions
         assertFalse("Hash codes should be unique across large datasets", hasCollision);
         assertTrue("Execution time should be within acceptable limits", duration < 10000);
     }
