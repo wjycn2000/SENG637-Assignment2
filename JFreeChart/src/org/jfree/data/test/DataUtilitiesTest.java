@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.jfree.data.DataUtilities;
 import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals; 
 import org.jmock.*;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jfree.data.KeyedValues;
@@ -154,4 +155,45 @@ public class DataUtilitiesTest extends DataUtilities {
         KeyedValues result = DataUtilities.getCumulativePercentages(mockData);
         assertEquals(0, result.getItemCount());
     }
+
+ /**
+  * Test Case: Convert a valid array of doubles into a Number[] array.
+  * Test Strategy: Equivalence Class Partitioning (ECP) - Normal case.
+  * Expected Behavior: The method should correctly convert a double[] to Number[].
+  */
+   
+ @Test
+ public void testCreateNumberArray_ValidInput() {
+     double[] input = {1.5, 2.5, 3.5};
+     Number[] expected = {1.5, 2.5, 3.5};
+     
+     Number[] result = DataUtilities.createNumberArray(input);
+     
+     assertArrayEquals("The method should return an array of Number objects matching the input doubles.",
+                       expected, result);
+ }
+
+ /**
+  * Test Case: Convert a valid 2D array of doubles into a Number[][] array.
+  * Test Strategy: Equivalence Class Partitioning (ECP) - Normal case.
+  * Expected Behavior: The method should correctly convert a double[][] to Number[][].
+  */
+     
+ @Test
+ public void testCreateNumberArray2D_ValidInput() {
+     double[][] input = {
+         {1.1, 2.2, 3.3},
+         {4.4, 5.5, 6.6}
+     };
+
+     Number[][] expected = {
+         {1.1, 2.2, 3.3},
+         {4.4, 5.5, 6.6}
+     };
+
+     Number[][] result = DataUtilities.createNumberArray2D(input);
+
+     assertArrayEquals("The method should return a 2D array of Number objects matching the input doubles.",
+                       expected, result);
+ }
 }
