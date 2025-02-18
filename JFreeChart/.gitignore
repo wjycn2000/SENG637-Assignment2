@@ -1,1 +1,26 @@
+# Ignore compiled class files
 /bin/
+*.class
+
+# Ignore Eclipse project settings
+.classpath
+.project
+.settings/
+
+# Ignore temporary files and system files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Exclude IDE-related metadata (if using IntelliJ or VS Code)
+.idea/
+.vscode/
+
+# Exclude Maven and Gradle build directories (if used in the future)
+target/
+build/
+
+# Ensure JAR files inside the lib folder are NOT ignored
+!lib/
+!lib/**/*.jar
